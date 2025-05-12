@@ -56,7 +56,7 @@ secure_proxy/
 
 ## Usage
 
-1. Run server: `python server/main.py`
-2. Run client: `python client/main.py`
+1. Run server: At the root of the project, run `PYTHONPATH=. python3 server/main.py`
+2. Run client: At the root of the project, run `python3 -m client.main`
 
 Keys are generated automatically when the client starts and saved to disk.
