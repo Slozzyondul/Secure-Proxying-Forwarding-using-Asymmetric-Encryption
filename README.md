@@ -1,6 +1,12 @@
 # Secure-Proxying-Forwarding-using-Asymmetric-Encryption
 A client-server app that can securely forward TCP communication over the internet using asymmetric encryption .
 
+## Features
+
+- Asymmetric key encryption with RSA (2048-bit)
+- Simple binary protocol with handshake
+- Logs and debug info using a shared logger
+
 # Folder Structure
 
 secure_proxy/
@@ -27,7 +33,7 @@ secure_proxy/
 
 ├── shared/
 
-│   ├── protocol.py      # Defines commands/formats
+│   ├── protocol.py      # Defines commands/formats (HANDSHAKE, FORWARD, PING, EOF)
 
 │   └── logger.py        # Shared logging util
 
@@ -36,3 +42,21 @@ secure_proxy/
 ├── requirements.txt
 
 └── .env                 
+
+# Encryption Flow 
+
+1. Client generates RSA keypair 
+
+2. On connect, client sends public key (HANDSHAKE_INIT).
+
+3. Server responds with its public key (HANDSHAKE_RESPONSE).
+
+4. All subsequent communication is encrypted using the other's public key
+
+
+## Usage
+
+1. Run server: `python server/main.py`
+2. Run client: `python client/main.py`
+
+Keys are generated automatically when the client starts and saved to disk.
