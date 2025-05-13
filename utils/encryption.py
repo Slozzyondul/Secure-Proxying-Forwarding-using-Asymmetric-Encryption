@@ -5,8 +5,10 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.backends import default_backend
 
-def load_public_key(path="keys/public_key.pem"):
-    with open(path, "rb") as f:
+def load_public_key(source="keys/public_key.pem"):
+    if isinstance(source, bytes):
+        return serialization.load_pem_public_key(source)
+    with open(source, "rb") as f:
         return serialization.load_pem_public_key(f.read())
 
 def encrypt_message(message: bytes, public_key):

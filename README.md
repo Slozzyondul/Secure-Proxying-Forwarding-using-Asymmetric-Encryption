@@ -41,6 +41,20 @@ Extracts and decrypts the AES key using RSA.
 
 Decrypts the rest of the data using AES.
 
+# 🔁 Workflow You Want:
+1. Client → Encrypt request with server's public key → send.
+
+2. Server → Decrypt request with private key.
+
+3. Server → Forward to remote (e.g., example.com).
+
+4. Server → Encrypt response with client's public key.
+
+5. Client → Decrypt response with its private key.
+
+- The client sends its public key to the server during initial handshake.
+
+
 ## Usage
 
 Run it once:

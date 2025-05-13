@@ -1,8 +1,8 @@
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
 from utils.encryption import load_public_key, encrypt_message
+from utils.decryption import load_private_key, decrypt_message
 import socket
 
 def main():
@@ -10,27 +10,35 @@ def main():
     port = 9999         # Same port as the tunnel
     public_key = load_public_key()
 
+    # Load client's own keys
+    public_key = load_public_key("keys/public_key.pem")  
+    private_key = load_private_key("keys/private_key.pem") 
 
     try:
         with socket.create_connection((host, port)) as sock:
-            # Send an HTTP GET request through the tunnel
+             # Step 1: Send public key to server
+            with open("keys/public_key.pem", "rb") as f:
+                pubkey_data = f.read()
+                sock.sendall(pubkey_data)
+                
+           # Step 2: Prepare HTTP request and encrypt
             request = b"GET / HTTP/1.1\r\nHost: example.com\r\nConnection: close\r\n\r\n"
-            
-
-
-            #sock.sendall(request)
-            encrypted_data = encrypt_message(request, public_key)
+            encrypted_data = encrypt_message(request, public_key)  # Optional: you could encrypt with server pubkey instead if hybrid
             sock.sendall(encrypted_data)
-
-            # Receive and print the response
-            response = b""
+              
+            # Step 3: Receive and decrypt the response
+            response_encrypted = b""
             while True:
                 data = sock.recv(4096)
                 if not data:
                     break
-                response += data
+                response_encrypted += data
 
-            print(response.decode(errors="replace"))
+            try:
+                decrypted_response = decrypt_message(response_encrypted, private_key)
+                print(decrypted_response.decode(errors="replace"))
+            except Exception as e:
+                print(f"[!] Decryption failed: {e}")
 
     except Exception as e:
         print(f"[!] Client error: {e}")
