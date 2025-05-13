@@ -14,7 +14,10 @@ def main():
     try:
         with socket.create_connection((host, port)) as sock:
             # Send an HTTP GET request through the tunnel
-            request = b"GET / HTTP/1.1\r\nHost: example.com\r\nConnection: close\r\n\r\n"
+            #request = b"GET / HTTP/1.1\r\nHost: example.com\r\nConnection: close\r\n\r\n"
+            request = b"ping"
+
+
             #sock.sendall(request)
             encrypted_data = encrypt_message(request, public_key)
             sock.sendall(encrypted_data)

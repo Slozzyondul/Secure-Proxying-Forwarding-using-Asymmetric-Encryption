@@ -1,13 +1,23 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from utils.decryption import load_private_key, decrypt_message
+
 import socket
 import threading
 
+
+
 def forward(source, destination):
     try:
+        private_key = load_private_key()
         while True:
             data = source.recv(4096)
+            
             if not data:
                 break
-            destination.sendall(data)
+            decrypted_data = decrypt_message(data, private_key)
+            destination.sendall(decrypted_data)
     finally:
         source.close()
         destination.close()
