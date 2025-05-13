@@ -32,6 +32,7 @@ AES is used for encrypting the main data (fast + secure).
 RSA is used to encrypt the AES key (secure key exchange).
 
 - The client sends:
+
 RSA_ENCRYPTED_AES_KEY || AES_ENCRYPTED_DATA
 
 - The server:
