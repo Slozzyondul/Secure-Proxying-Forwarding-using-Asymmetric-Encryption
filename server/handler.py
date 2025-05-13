@@ -8,16 +8,22 @@ import threading
 
 
 
-def forward(source, destination):
+def forward(source, destination, decrypt=False, private_key=None):
     try:
-        private_key = load_private_key()
         while True:
             data = source.recv(4096)
-            
             if not data:
                 break
-            decrypted_data = decrypt_message(data, private_key)
-            destination.sendall(decrypted_data)
+
+            if decrypt and private_key:
+                try:
+                    data = decrypt_message(data, private_key)
+                except Exception as e:
+                    print(f"[!] Decryption failed: {e}")
+                    break
+
+            destination.sendall(data)
+
     finally:
         source.close()
         destination.close()
@@ -30,8 +36,13 @@ def handle_client(client_socket, remote_host, remote_port):
         print(f"[!] Connection to remote failed: {e}")
         client_socket.close()
         return
-
-    threading.Thread(target=forward, args=(client_socket, remote_socket), daemon=True).start()
+    
+    private_key = load_private_key()
+    
+     # From client -> to remote (decrypted)
+    threading.Thread(target=forward, args=(client_socket, remote_socket, True, private_key), daemon=True).start()
+    
+    # From remote -> to client (raw data)
     threading.Thread(target=forward, args=(remote_socket, client_socket), daemon=True).start()
 
 def start_server(config):
