@@ -1,6 +1,31 @@
 # Secure-Proxying-Forwarding-using-Asymmetric-Encryption
 A client-server app that can securely forward TCP communication over the internet using asymmetric encryption .
 
+# What Is Asymmetric Encryption?
+
+Asymmetric encryption uses two keys:
+
+- Public Key (shareable) — used to encrypt
+
+- Private Key (secret) — used to decrypt
+
+In the tunnel:
+
+- Client encrypts the data using the server’s public key
+
+- Server decrypts it using its private key
+
+- This keeps data safe even if someone sniffs the traffic — they can't decrypt it without the private key.
+
+# Steps	
+1️⃣	Generate RSA keys (private + public)
+
+2️⃣	Client encrypts messages with pubkey
+
+3️⃣	Server decrypts using private key
+
+4️⃣	Wrap it cleanly into the tunnel flow
+
 
 
 ## Usage
