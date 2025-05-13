@@ -26,7 +26,19 @@ In the tunnel:
 
 4️⃣	Wrap it cleanly into the tunnel flow
 
+# Hybrid Encryption Flow
+AES is used for encrypting the main data (fast + secure).
 
+RSA is used to encrypt the AES key (secure key exchange).
+
+- The client sends:
+RSA_ENCRYPTED_AES_KEY || AES_ENCRYPTED_DATA
+
+- The server:
+
+Extracts and decrypts the AES key using RSA.
+
+Decrypts the rest of the data using AES.
 
 ## Usage
 
