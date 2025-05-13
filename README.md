@@ -30,6 +30,18 @@ In the tunnel:
 
 ## Usage
 
+Run it once:
+
+1. Generate keys: At the root of the project, run `PYTHONPATH=. python3 keys/generate_keys.py`
+
+You’ll get:
+
+keys/private_key.pem
+
+keys/public_key.pem
+
+# Start server and client:
+
 1. Run server: At the root of the project, run `PYTHONPATH=. python3 server/main.py`
 2. Run client: At the root of the project, run `python3 client/client.py`
 
