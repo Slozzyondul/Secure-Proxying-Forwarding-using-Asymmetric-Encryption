@@ -27,18 +27,20 @@ def main():
             sock.sendall(encrypted_data)
               
             # Step 3: Receive and decrypt the response
-            response_encrypted = b""
+            decrypted_response = b""
             while True:
                 data = sock.recv(4096)
                 if not data:
-                    break
-                response_encrypted += data
+                    break           
 
-            try:
-                decrypted_response = decrypt_message(response_encrypted, private_key)
-                print(decrypted_response.decode(errors="replace"))
-            except Exception as e:
-                print(f"[!] Decryption failed: {e}")
+                try:
+                    decrypted_chunk = decrypt_message(data, private_key)
+                    decrypted_response += decrypted_chunk 
+                    
+                except Exception as e:
+                    print(f"[!]  Failed to decrypt chunk: {e}")
+                    break
+            print(decrypted_response.decode(errors="replace"))
 
     except Exception as e:
         print(f"[!] Client error: {e}")

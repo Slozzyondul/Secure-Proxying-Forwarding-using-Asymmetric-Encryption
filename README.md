@@ -1,5 +1,16 @@
 # Secure-Proxying-Forwarding-using-Asymmetric-Encryption
-A client-server app that can securely forward TCP communication over the internet using asymmetric encryption .
+A client-server app that can securely forward TCP communication over the internet using asymmetric encryption.
+
+# Goal
+Nimicking something like a very minimal VPN or HTTPS-like tunneling, manually:
+
+- Using public key cryptography
+
+- Encrypting payloads both ways
+
+- Not relying on TLS or certs — all done in Python 
+
+
 
 # What Is Asymmetric Encryption?
 
@@ -54,23 +65,19 @@ Decrypts the rest of the data using AES.
 
 # Generally
 
-✅ Server starts and listens.
+1. Client connects to listening server ✔️
 
-✅ Client connects and sends its public key.
+2. Sent its public key to the server ✔️
 
-✅ Server receives the public key.
+3. Sent an encrypted HTTP request (GET / HTTP/1.1 ...) ✔️
 
-✅ Client sends encrypted HTTP request.
+4. Server decrypted the request with client public key ✔️
 
-✅ Server decrypts it, forwards to example.com, gets response.
+5. Server fetched the actual HTTP page (from example.com) ✔️
 
-✅ Server encrypts the response, sends it back to client.
+6. Server encrypted that page with the client’s public key ✔️
 
-✅ Client decrypts and prints the response.
-
-
-
-- The client sends its public key to the server during initial handshake.
+7. Client received encrypted chunks, decrypted them locally, and printed the final page ✔️
 
 
 ## Usage
