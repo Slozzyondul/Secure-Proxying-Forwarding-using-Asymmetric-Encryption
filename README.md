@@ -1,8 +1,11 @@
 # Secure-Proxying-Forwarding-using-Asymmetric-Encryption
 A client-server app that can securely forward TCP communication over the internet using asymmetric encryption.
 
+
 # Goal
-Nimicking something like a very minimal VPN or HTTPS-like tunneling, manually:
+![Target product](./assets/full_app.png)
+
+Mimicking something like a very minimal VPN or HTTPS-like tunneling, manually:
 
 - Using public key cryptography
 
@@ -28,14 +31,6 @@ In the tunnel:
 
 - This keeps data safe even if someone sniffs the traffic — they can't decrypt it without the private key.
 
-# Steps	
-1️⃣	Generate RSA keys (private + public)
-
-2️⃣	Client encrypts messages with pubkey
-
-3️⃣	Server decrypts using private key
-
-4️⃣	Wrap it cleanly into the tunnel flow
 
 # Hybrid Encryption Flow
 AES is used for encrypting the main data (fast + secure).
@@ -52,16 +47,6 @@ Extracts and decrypts the AES key using RSA.
 
 Decrypts the rest of the data using AES.
 
-# 🔁 Workflow:
-1. Client → Encrypt request with server's public key → send.
-
-2. Server → Decrypt request with private key.
-
-3. Server → Forward to remote (e.g., example.com).
-
-4. Server → Encrypt response with client's public key.
-
-5. Client → Decrypt response with its private key.
 
 # Generally
 
@@ -77,7 +62,7 @@ Decrypts the rest of the data using AES.
 
 6. Server encrypted that page with the client’s public key ✔️
 
-7. Client received encrypted chunks, decrypted them locally, and printed the final page ✔️
+7. Client received encrypted chunks, decrypted them locally, and print the final page ✔️
 
 
 ## Usage
@@ -96,4 +81,8 @@ keys/public_key.pem
 
 1. Run server: At the root of the project, run `PYTHONPATH=. python3 server/main.py`
 2. Run client: At the root of the project, run `python3 client/client.py`
+
+- On closing the server, the content of example.com will be displayed in the terminal.
+
+
 
